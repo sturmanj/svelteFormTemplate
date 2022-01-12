@@ -1,30 +1,32 @@
 <script>
-	export let name;
-</script>
-
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
+	import Page1 from './Page0.svelte';
+	import Page2 from './Page1.svelte';
+	import { page0, page1 } from './stores'
+   
+	const pages = [Page1, Page2];
+   
+	let page = 0;
+   
+	  function handleMessage(event) {
+		if (event.detail.text == 'next') {
+		  page += 1;
 		}
-	}
-</style>
+		if (event.detail.text == 'prev') {
+		  page -= 1;
+		}
+		if (event.detail.text == 'sbmt') {
+		  console.log({
+			"page0": $page0,
+			"page1": $page1
+		  })
+		  $page0 = ''
+		  $page1 = ''
+		  page = 0
+		}
+	  }
+   
+  </script>
+   
+  <svelte:component this={pages[page]} on:message={handleMessage}/>
+  
+  
